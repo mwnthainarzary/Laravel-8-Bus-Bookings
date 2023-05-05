@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyBusRequest;
 use App\Http\Requests\StoreBusRequest;
 use App\Http\Requests\UpdateBusRequest;
+use App\Ride;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,12 +27,22 @@ class BusesController extends Controller
     {
         abort_if(Gate::denies('bus_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.buses.create');
+        $rides = Ride::orderBy('departure_place','asc')->get();
+
+        return view('admin.buses.create')->with([
+            'rides' => $rides
+        ]);
     }
 
     public function store(StoreBusRequest $request)
     {
-        $bus = Bus::create($request->all());
+        // $bus = Bus::create($request->all());
+
+        $bus = Bus::create([
+            'name' => $request->name,
+            'places_available' => $request->places_available,
+            'maximum_seats' => $request->maximum_seats
+        ]);
 
         return redirect()->route('admin.buses.index');
     }

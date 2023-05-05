@@ -31,20 +31,26 @@ class Booking extends Model
         'name',
         'email',
         'phone',
+        'seat_no',
         'status',
         'created_at',
         'updated_at',
         'deleted_at',
+        'ticket_no'
     ];
 
-    public static function booting()
-    {
-        self::updated(function (Booking $booking) {
-            if ($booking->isDirty('status') && in_array($booking->status, ['confirmed', 'rejected'])) {
-                Notification::route('mail', $booking->email)->notify(new BookingStatusChangeNotification($booking->status));
-            }
-        });
-    }
+    protected $casts = [
+        'seat_no' => 'array',
+    ];
+
+    // public static function booting()
+    // {
+    //     self::updated(function (Booking $booking) {
+    //         if ($booking->isDirty('status') && in_array($booking->status, ['confirmed', 'rejected'])) {
+    //             Notification::route('mail', $booking->email)->notify(new BookingStatusChangeNotification($booking->status));
+    //         }
+    //     });
+    // }
 
     protected function serializeDate(DateTimeInterface $date)
     {

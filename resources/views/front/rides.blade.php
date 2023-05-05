@@ -15,6 +15,7 @@
                     @endif
 
                     <form method="POST" action="{{ route('rides.book') }}" style="{{ $errors->isEmpty() ? 'display:none;' : '' }}">
+                    
                         @csrf
                         <input type="hidden" id="ride" name="ride_id" value="{{ old('ride_id') }}">
 
@@ -62,6 +63,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th scope="col">Bus Name</th>
                                 <th scope="col">Route</th>
                                 <th scope="col">Time</th>
                                 <th scope="col"></th>
@@ -70,12 +72,15 @@
                         <tbody>
                             @forelse ($ridesDates as $date => $rides)
                                 <tr>
-                                    <td class="text-center" colspan="3">
+                                    <td class="text-center" colspan="4">
                                         <strong>{{ $date }}</strong>
                                     </td>
                                 </tr>
                                 @foreach ($rides as $ride)
                                     <tr>
+                                        <td>
+                                            {{ $ride->bus->name }}
+                                        </td>
                                         <td>
                                             {{ $ride->route }}
                                         </td>

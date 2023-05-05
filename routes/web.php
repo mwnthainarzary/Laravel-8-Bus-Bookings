@@ -13,6 +13,9 @@ Route::post('rides', 'RideController@book')->name('rides.book');
 
 Route::resource('rides', 'RideController')->only(['index']);
 
+Route::get('get-booking', 'UserBookingController@getDetails')->name('add.details');
+Route::post('get-details', 'UserBookingController@getBookingDetails')->name('get.booking');
+
 Auth::routes(['register' => false]);
 // Admin
 

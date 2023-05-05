@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.edit') }} {{ trans('cruds.booking.title_singular') }}
+        {{ trans('global.edit') }} {{ trans('cruds.booking.title_singular') }} | Remaining Seats: {{$remaining_seats}}
     </div>
 
     <div class="card-body">
@@ -53,6 +53,26 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.booking.fields.phone_helper') }}</span>
+            </div>
+            
+            <div>
+                <label class="required" for="name">Seat Nos 
+                    @if($booking->seat_no)
+                    <span class="px-4">
+                      Alloted Seat no:  {{implode(',',$booking->seat_no)}}, Remaining Seats: {{$remaining_seats}}
+                    </span> 
+                    @endif
+                </label>
+
+                <select class="custom-select custom-select-md mb-3" name="seat_no[]" multiple>
+                <option>Select Seat</option>
+                @for($i=1; $i<=$maximum_seats; $i++)
+                    @if(!$allotedSeats->contains($i))
+                    <option value="{{$i}}">{{$i}}</option>
+                    @endif
+                @endfor
+               
+                </select>
             </div>
             <div class="form-group">
                 <label class="required">{{ trans('cruds.booking.fields.status') }}</label>

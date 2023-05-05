@@ -35,6 +35,9 @@
                         <li class="nav-item">
                             <a href="{{ route('rides.index') }}" class="nav-link">Upcoming Rides</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('add.details') }}" class="nav-link">Check Booking</a>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav ml-auto">

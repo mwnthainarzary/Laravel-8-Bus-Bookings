@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateBookingRequest;
 use App\Ride;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class BookingsController extends Controller
@@ -42,7 +43,16 @@ class BookingsController extends Controller
 
     public function store(StoreBookingRequest $request)
     {
-        $booking = Booking::create($request->all());
+        // $booking = Booking::create($request->all());
+
+        DB::transaction(function()use($request){
+           $booking = Booking::create([
+                'ticket_no' => $this->ticket(),
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+            ]);
+        });
 
         return redirect()->route('admin.bookings.index');
     }
@@ -53,16 +63,55 @@ class BookingsController extends Controller
 
         $rides = Ride::all()->pluck('route', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $maximum_seats = $booking->ride->bus->maximum_seats;
+
+        $allotedSeats = collect($booking->seat_no);
+        $remaining_seats =0;
+        for($i=1; $i<=$maximum_seats; $i++){
+
+            if(!$allotedSeats->contains($i)){
+
+                $remaining_seats++;
+            }
+            
+        }
+
+
         $booking->load('ride');
 
-        return view('admin.bookings.edit', compact('rides', 'booking'));
+        return view('admin.bookings.edit', compact('rides','remaining_seats', 'booking','maximum_seats','allotedSeats'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
-        $booking->update($request->all());
+        // dd($request);
+        DB::transaction(function()use($booking, $request){
+            $booking->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'status' => $request->status,
+                'seat_no' => $request->seat_no ? $request->seat_no : $booking->seat_no
+            ]);
+
+            // dd($booking);
+        });
+        // $booking->update($request->all());
 
         return redirect()->route('admin.bookings.index');
+    }
+
+    public function ticket()
+    {
+        $book = Booking::orderBy('created_at', 'desc')->first();
+
+        if(is_null($book)){
+            return '100001';
+        }else{
+            $no = intval($book->ticket_no) + 1;
+
+            return $no;
+        }
     }
 
     public function show(Booking $booking)

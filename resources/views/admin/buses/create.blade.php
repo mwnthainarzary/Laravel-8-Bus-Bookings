@@ -29,6 +29,28 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.bus.fields.places_available_helper') }}</span>
             </div>
+
+            {{--<div>
+                <label class="required" for="name">Route</label>
+
+                <select class="custom-select custom-select-md mb-3" name="places_available">
+                <option selected>Select Route</option>
+                @foreach($rides as $ride)
+                 <option value="1">{{$ride->departure_place}} -to- {{$ride->arrival_place}} - {{$ride->id}}</option>
+                @endforeach
+               
+                </select>
+            </div>--}}
+
+            <div class="form-group">
+                <label class="required" for="name">Maximum Seats</label>
+                <input class="form-control {{ $errors->has('maximum_seats') ? 'is-invalid' : '' }}" type="text" name="maximum_seats" id="name" value="{{ old('maximum_seats', '') }}" required>
+                @if($errors->has('maximum_seats'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('maximum_seats') }}
+                    </div>
+                @endif
+            </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

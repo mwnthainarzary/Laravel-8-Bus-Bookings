@@ -32,12 +32,11 @@ class RideController extends Controller
             ->withCount('confirmedBookings as bookings_count')
             ->find($request->input('ride_id'));
 
-        // dd(!optional($ride)->bus, !$ride->is_booking_open, $ride->bus->places_available <= $ride->bookings_count,now()->greaterThanOrEqualTo($ride->depart_time));
         if (
             !optional($ride)->bus ||
             !$ride->is_booking_open ||
-            $ride->bus->places_available <= $ride->bookings_count ||
-            now()->greaterThanOrEqualTo($ride->depart_time)
+            $ride->bus->remaining_seat == 0 ||
+            now()->greaterThanOrEqualTo($ride->departure_time)
         ) {
             return redirect()->back()->withErrors(['alert' => 'This ride is no longer available']);
         }

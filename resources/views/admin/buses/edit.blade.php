@@ -31,6 +31,15 @@
                 <span class="help-block">{{ trans('cruds.bus.fields.places_available_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="name">Maximum Seats</label>
+                <input class="form-control {{ $errors->has('maximum_seats') ? 'is-invalid' : '' }}" type="text" name="maximum_seats" id="name" value="{{ old('maximum_seats', $bus->maximum_seats) }}" required>
+                @if($errors->has('maximum_seats'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('maximum_seats') }}
+                    </div>
+                @endif
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

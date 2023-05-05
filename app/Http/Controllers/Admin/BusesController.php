@@ -56,7 +56,12 @@ class BusesController extends Controller
 
     public function update(UpdateBusRequest $request, Bus $bus)
     {
-        $bus->update($request->all());
+        // $bus->update($request->all());
+        $bus = $bus->update([
+            'name' => $request->name,
+            'places_available' => $request->places_available,
+            'maximum_seats' => $request->maximum_seats
+        ]);
 
         return redirect()->route('admin.buses.index');
     }

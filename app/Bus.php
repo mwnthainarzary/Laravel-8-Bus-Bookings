@@ -21,6 +21,7 @@ class Bus extends Model
     protected $fillable = [
         'name',
         'places_available',
+        'maximum_seats',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -34,5 +35,10 @@ class Bus extends Model
     public function getSelectNameAttribute()
     {
         return $this->name . ' (' . $this->places_available . ' ' . \Str::plural('place', $this->places_available) . ')';
+    }
+
+    public function getRemainingSeatAttribute()
+    {
+        
     }
 }

@@ -19,7 +19,7 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $bookings = Booking::all();
+        $bookings = Booking::orderBy('created_at','desc')->get();
 
         $rides = Ride::get();
 
@@ -44,13 +44,19 @@ class BookingsController extends Controller
     public function store(StoreBookingRequest $request)
     {
         // $booking = Booking::create($request->all());
+        $ride = Ride::find($request->ride_id);
+        $bus_id = $ride->bus->id;
 
-        DB::transaction(function()use($request){
+
+        DB::transaction(function()use($ride,$bus_id,$request){
            $booking = Booking::create([
                 'ticket_no' => $this->ticket(),
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
+                'ride_id' => $ride->id,
+                'bus_id' => $bus_id,
+                'status' => $request->status
             ]);
         });
 
@@ -64,22 +70,19 @@ class BookingsController extends Controller
         $rides = Ride::all()->pluck('route', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $maximum_seats = $booking->ride->bus->maximum_seats;
-
+    
         $allotedSeats = collect($booking->seat_no);
-        $remaining_seats =0;
-        for($i=1; $i<=$maximum_seats; $i++){
 
-            if(!$allotedSeats->contains($i)){
+        $remaining_seats =$booking->ride->bus->remaining_seat;
 
-                $remaining_seats++;
-            }
-            
-        }
+        $getAllotedSeats = $booking->ride->bus->getAllotedSeat();
+
+        // dd($getSeats);
 
 
         $booking->load('ride');
 
-        return view('admin.bookings.edit', compact('rides','remaining_seats', 'booking','maximum_seats','allotedSeats'));
+        return view('admin.bookings.edit', compact('rides','getAllotedSeats','remaining_seats', 'booking','maximum_seats','allotedSeats'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)

@@ -3,41 +3,101 @@
 <div class="card">
   <h5 class="card-header">Booking Records</h5>
   <div class="card-body">
-    @foreach($bookings as $book)
-        <p>Name: {{$book->name}}</p>
-        <p>Email: {{$book->email}}</p>
-        <p>Mobile No: {{$book->phone}}</p>
-        <p>Booking Status: {{$book->status}}</p>
-        <p>Ride: From-{{$book->ride->departure_place}}, To-{{$book->ride->arrival_place}}</p>
-        <p>Arrive Time: {{$book->ride->arrival_time}}</p>
-        <p>Bus Name: {{$book->ride->bus->name}}</p>
-    @endforeach
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <div>
-        @foreach($bookings as $book)
-            <p>{{$book->name}}</p>
-        @endforeach
+    <div class="form-group">
+        <a class="btn btn-default" href="{{ route('add.details') }}">
+           Back
+        </a>
+    </div>
+    @forelse($bookings as $book)
+    <div class="card-body">
+        <div class="form-group">
+            <div class="form-group">
+                <a class="btn btn-default" href="{{ route('add.details') }}">
+                    Prints
+                </a>
+            </div>
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th>
+                        Ticket No: 
+                        </th>
+                        <td>
+                        {{$book->ticket_no}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        Email: 
+                        </th>
+                        <td>
+                        {{$book->email}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        Mobile No: 
+                        </th>
+                        <td>
+                        {{$book->phone}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        Booking Status: 
+                        </th>
+                        <td>
+                        {!! $book->getStatus() !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        Ride: 
+                        </th>
+                        <td>
+                        From-{{$book->ride->departure_place}}, To-{{$book->ride->arrival_place}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        Arrive Time: 
+                        </th>
+                        <td>
+                        {{$book->ride->arrival_time}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        Bus Name: 
+                        </th>
+                        <td>
+                        {{$book->ride->bus->name}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        Seat No: 
+                        </th>
+                        <td>
+                        {{implode(',',$book->seat_no)}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        Booked At: 
+                        </th>
+                        <td>
+                        {{$book->created_at}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
     </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
+
+      @empty
+        <p>Booking Not Available</p>
+      @endforelse
   </div>
 </div>
-
 @endsection

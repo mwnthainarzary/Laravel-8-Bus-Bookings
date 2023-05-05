@@ -67,7 +67,7 @@
                 <select class="custom-select custom-select-md mb-3" name="seat_no[]" multiple>
                 <option>Select Seat</option>
                 @for($i=1; $i<=$maximum_seats; $i++)
-                    @if(!$allotedSeats->contains($i))
+                    @if(!$getAllotedSeats->contains($i))
                     <option value="{{$i}}">{{$i}}</option>
                     @endif
                 @endfor

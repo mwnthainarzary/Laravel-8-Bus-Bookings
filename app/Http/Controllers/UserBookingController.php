@@ -19,7 +19,7 @@ class UserBookingController extends Controller
             'email' =>'required|email',
         ]);
 
-        $booking = Booking::where('name', $request->name)->where('email', $request->email)->get();
+        $booking = Booking::orderBy('created_at','desc')->where('name', $request->name)->where('email', $request->email)->get();
 
         return view('pages.booking.show-booking-details')->with([
             'bookings' => $booking

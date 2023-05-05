@@ -6,7 +6,7 @@
             <div class="card-body p-4">
                 <h1>{{ trans('panel.site_title') }}</h1>
 
-                <p class="text-muted">Booking</p>
+                <p class="text-muted">Booking Status</p>
 
                 @if(session('message'))
                     <div class="alert alert-info" role="alert">

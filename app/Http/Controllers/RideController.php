@@ -41,14 +41,18 @@ class RideController extends Controller
         ) {
             return redirect()->back()->withErrors(['alert' => 'This ride is no longer available']);
         }
+
+        $ride = Ride::find($request->ride_id);
+        $bus_id = $ride->bus->id;
  
-        DB::transaction(function()use($request, $ride){
+        DB::transaction(function()use($request, $ride, $bus_id){
             $booking = Booking::create([
                  'ticket_no' => $this->ticket(),
                  'name' => $request->name,
                  'email' => $request->email,
                  'phone' => $request->phone,
                  'status' => 'processing',
+                 'bus_id' => $bus_id,
                  'ride_id' => $ride->id
              ]);
          });

@@ -36,7 +36,8 @@ class Booking extends Model
         'created_at',
         'updated_at',
         'deleted_at',
-        'ticket_no'
+        'ticket_no',
+        'bus_id'
     ];
 
     protected $casts = [
@@ -60,5 +61,25 @@ class Booking extends Model
     public function ride()
     {
         return $this->belongsTo(Ride::class, 'ride_id');
+    }
+
+    public function getStatus()
+    {
+        $status = $this->status;
+
+        switch($status){
+            case 'processing':
+                $data = '<span class="btn btn-sm btn-primary">Processing</span>';
+                return $data;
+                break;
+            case 'rejected':
+                $data = '<span class="btn btn-sm btn-danger">Rejected</span>';
+                return $data;
+                break;
+            case 'confirmed':
+                $data = '<span class="btn btn-sm btn-success">Confirm</span>';
+                return $data;
+                break;
+        }
     }
 }

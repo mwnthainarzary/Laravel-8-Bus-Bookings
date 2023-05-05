@@ -39,6 +39,34 @@ class Bus extends Model
 
     public function getRemainingSeatAttribute()
     {
-        
+        $buses = Booking::where('bus_id', $this->id)->get();
+        $count = 0;
+        foreach($buses as $bus){
+            $seat = collect($bus->seat_no)->count();
+
+            $count = $count + $seat;
+        }
+
+        // return $count;
+
+        $remaining_seat = intval($this->maximum_seats) - intval($count);
+
+        return $remaining_seat;
+    }
+
+    public function getAllotedSeat()
+    {
+        $buses = Booking::where('bus_id', $this->id)->get();
+        $seats = collect();
+        foreach($buses as $bus){
+            $seat = collect($bus->seat_no);
+
+            $seats = $seats->merge($seat);
+        }
+
+        $merge = $seats;
+
+        // return $count;
+        return $merge;
     }
 }

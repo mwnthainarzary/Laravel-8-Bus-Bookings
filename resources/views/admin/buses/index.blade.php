@@ -28,11 +28,14 @@
                         <th>
                             {{ trans('cruds.bus.fields.name') }}
                         </th>
-                        <th>
+                        {{--<th>
                             {{ trans('cruds.bus.fields.places_available') }}
-                        </th>
+                        </th>--}}
                         <th>
                             Maximum Seats
+                        </th>
+                        <th>
+                            Remaining Seats
                         </th>
                         <th>
                             &nbsp;
@@ -51,11 +54,14 @@
                             <td>
                                 {{ $bus->name ?? '' }}
                             </td>
-                            <td>
+                            {{--<td>
                                 {{ $bus->places_available ?? '' }}
-                            </td>
+                            </td>--}}
                             <td>
                                 {{ $bus->maximum_seats ?? '' }}
+                            </td>
+                            <td>
+                                {{ $bus->remaining_seat }}
                             </td>
                             <td>
                                 @can('bus_show')

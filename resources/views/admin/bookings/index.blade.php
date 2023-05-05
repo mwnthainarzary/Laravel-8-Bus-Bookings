@@ -81,6 +81,7 @@
                             </td>
                             <td>
                                 {{ $booking->ride->route ?? '' }}
+                                <p>({{ $booking->ride->bus->name ?? '' }})</p>
                             </td>
                             <td>
                                 {{ $booking->name ?? '' }}

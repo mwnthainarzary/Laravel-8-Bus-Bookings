@@ -13,7 +13,7 @@ class BusesTableSeeder extends Seeder
     {
         $buses = [];
 
-        foreach (range(1, 15) as $id) {
+        foreach (range(1, 5) as $id) {
             $buses[] = [
                 'id'               => $id,
                 'name'             => 'Bus ' . $id,

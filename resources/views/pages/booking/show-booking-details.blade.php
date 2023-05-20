@@ -79,7 +79,7 @@
                         Seat No: 
                         </th>
                         <td>
-                        {{implode(',',$book->seat_no)}}
+                        {{$book->seat_no ? implode(',',$book->seat_no) : 'Not Assign'}}
                         </td>
                     </tr>
                     <tr>

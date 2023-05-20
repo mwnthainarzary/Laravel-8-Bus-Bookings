@@ -15,7 +15,7 @@
                 {{ trans('global.dashboard') }}
             </a>
         </li>
-        @can('user_management_access')
+        {{--@can('user_management_access')
             <li class="c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-users c-sidebar-nav-icon">
@@ -56,7 +56,7 @@
                     @endcan
                 </ul>
             </li>
-        @endcan
+        @endcan--}}
         @can('bus_access')
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.buses.index") }}" class="c-sidebar-nav-link {{ request()->is('admin/buses') || request()->is('admin/buses/*') ? 'active' : '' }}">

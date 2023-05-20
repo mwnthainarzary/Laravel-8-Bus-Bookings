@@ -17,7 +17,7 @@ class RidesTableSeeder extends Seeder
         $buses = Bus::pluck('id');
         $rides = [];
 
-        foreach (range(1, 50) as $id) {
+        foreach (range(1, 5) as $id) {
             $departureTime = now()
                 ->setTime(mt_rand(6, 18), collect([0, 15, 30, 45])->random(), 0)
                 ->addDays(mt_rand(1, 4));
